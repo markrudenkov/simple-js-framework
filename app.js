@@ -18,19 +18,5 @@ app.controller.register('homeController', function(controller, template) {
 
 });
 
-// app.setTemplate();
 app.getRouteController(app.getHash()).setTemplate();
 
-// app.controller.register('loginController', function(controller, template) {
-//     template = `<div>{{LOGIN}}</div>`;
-//     controller.LOGIN = 'you have to login';
-// });
-
-// alert(
-//     document.URL + '\n'+
-//     document.location.hash
-// );
-
-// app.checkFramework();
-// console.log(app.controller);
-// app.controller.getControllerName();

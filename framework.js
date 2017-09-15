@@ -14,9 +14,6 @@ var Framework = function () {
         
     };
 
-
-    
-
     this.controller = {
 
         obj_name: 'controller',
@@ -48,9 +45,6 @@ var Framework = function () {
                     return router_obj;
                 }
             });
-            // console.log(route[0].controller);
-            // console.log(this.controller);
-            // console.log(hash);
             this.controller[route[0].controller](new Object(),this.template);
 
             return this;
@@ -61,25 +55,4 @@ Framework.prototype.checkFramework = function () {
     console.log('framewor imported');
 }
 
-// Framework.prototype.router = function (obj) {
-//     this.routes = obj.routes;
-// }
-
-
-// Framework.prototype.getHash = function () {
-//     return document.location.hash.replace(/#/g, '/');
-// }
-
-// Framework.prototype.getRouteController = function (hash) {
-
-//     var route = this.routes.filter((router_obj) => {
-//         if (router_obj.route === hash) {
-//             return router_obj;
-//         }
-//     });
-//     // console.log(route[0].controller);
-//     // console.log(this.controller);
-//     // console.log(hash);
-//     this.controller[route[0].controller](new Object(),template);
-// }
 
