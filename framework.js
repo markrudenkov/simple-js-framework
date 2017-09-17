@@ -1,22 +1,26 @@
 var Framework = function () {
     //there goes framework
-    this.template = "New text!";
-    // this.template = `<div> simple framework </div>`;
-    
-    this.setTemplate = () => {
-      
-        var arr = document.getElementsByTagName('my-app')
-        for(tag of arr){
-            tag.innerHTML = this.template;
-        };
+    let that = this;
 
-        console.log(document.getElementsByTagName('my-app')); 
-        
+    this.hash = '';
+
+    that.template =
+        {
+            view: "New text!"
+        }
+
+    this.setTemplate = () => {
+        var arr = document.getElementsByTagName('my-app')
+        for (tag of arr) {
+            tag.innerHTML = that.template.view;
+        };
+        console.log(document.getElementsByTagName('my-app'));
     };
 
     this.controller = {
 
         obj_name: 'controller',
+        defaultRoute: {route: '/', controller: 'defaultController'},
         getControllerName: function () {
             console.log('controller name: ' + this.obj_name);
         },
@@ -24,9 +28,12 @@ var Framework = function () {
         register: function (name, func) {
             if (!this[name]) {
                 this[name] = func;
-                // console.log('register works');
             }
+        },
 
+        defaultController: function (controller, template) {
+            template.view = `<div> Default Home view</div>`;
+            controller.HOME = 'Default Home view';
         }
     };
 
@@ -35,20 +42,28 @@ var Framework = function () {
     }
 
     this.getHash = function () {
-        return document.location.hash.replace(/#/g, '/');
+        that.hash = document.location.hash.replace(/#/g, '/');
+        return that;
     }
 
-    this.getRouteController = function (hash) {
-        
-            var route = this.routes.filter((router_obj) => {
-                if (router_obj.route === hash) {
-                    return router_obj;
-                }
-            });
-            this.controller[route[0].controller](new Object(),this.template);
+    this.getRouteController = () => {
+        var route = this.routes.filter((router_obj) => {
+            if (router_obj.route === that.hash) {
+                return router_obj;
+            }
+        });
 
-            return this;
+        if(route[0] === undefined){
+            route = [that.controller.defaultRoute];
         }
+
+        that.controller[route[0].controller](this.controller, this.template);
+        return this;
+    }
+
+    this.render = function () {
+        that.getHash().getRouteController().setTemplate();
+    }
 }
 
 Framework.prototype.checkFramework = function () {
