@@ -10,11 +10,16 @@ var Framework = function () {
         }
 
     this.setTemplate = () => {
-        var arr = document.getElementsByTagName('my-app')
-        for (tag of arr) {
+        var tag_arr = document.getElementsByTagName('my-app')
+        for (tag of tag_arr) {
+            var regex = new RegExp(/\{([^}]+)\}\}/, 'g');
+            that.template.view  = that.template.view.replace(regex,(matched)=>{
+                 return that.controller[matched.replace(/[\}\{]/g, "")];
+            });
             tag.innerHTML = that.template.view;
         };
-        console.log(document.getElementsByTagName('my-app'));
+        // console.log(document.getElementsByTagName('my-app'));
+        // console.log(that.template.view);
     };
 
     this.controller = {
