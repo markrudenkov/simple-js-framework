@@ -19,9 +19,10 @@ app.controller.register('loginController', function(controller, template) {
     template.view = `<div> {{LOGIN}}  </div>`;
     controller.LOGIN = 'this is login';
 
-    // setTimeout(function() {
-    //     controller.LOGIN = '2222';
-    // }, 1000);
+    setTimeout(function() {
+        controller.LOGIN = '2222';
+        console.log(controller.LOGIN);
+    }, 1000);
 });
 
 console.log('render is started');

@@ -23,10 +23,10 @@ var Framework = function (custom_view_tag) {
                 obj_name: 'controller',
                 defaultRoute: {route: '/', controller: 'defaultController'},
                 getControllerName: function () {
-                    console.log('controller name: ' + this.obj_name);
+                    // console.log('controller name: ' + this.obj_name);
                 },
         
-                register: function (name, func) {
+                register : function (name, func) {
                     if (!this[name]) {
                         this[name] = func;
                     }
@@ -38,31 +38,35 @@ var Framework = function (custom_view_tag) {
                 },
                 obj_footer: 'footer'
             };
+
+        //    this.controllerLiteral.prototype.register2 = function (name, func) {
+        //             console.log('hi');
+        //         }
 
     console.log('literal' + JSON.stringify(this.controllerLiteral,null,2));
-    // this.controller = new Proxy (this.controllerLiteral,this.propChangeHandler);
+    this.controller = new Proxy (this.controllerLiteral,this.propChangeHandler);
     // console.log('controler' + JSON.stringify(that.controller,null,2));
 
-    this.controller = {
+    // this.controller = {
         
-                obj_name: 'controller',
-                defaultRoute: {route: '/', controller: 'defaultController'},
-                getControllerName: function () {
-                    console.log('controller name: ' + this.obj_name);
-                },
+    //             obj_name: 'controller',
+    //             defaultRoute: {route: '/', controller: 'defaultController'},
+    //             getControllerName: function () {
+    //                 console.log('controller name: ' + this.obj_name);
+    //             },
         
-                register: function (name, func) {
-                    if (!this[name]) {
-                        this[name] = func;
-                    }
-                },
+    //             register: function (name, func) {
+    //                 if (!this[name]) {
+    //                     this[name] = func;
+    //                 }
+    //             },
         
-                defaultController: function (controller, template) {
-                    template.view = `<div> {{DEFAULT}} </div>`;
-                    controller.DEFAULT = 'Default view';
-                },
-                obj_footer: 'footer'
-            };
+    //             defaultController: function (controller, template) {
+    //                 template.view = `<div> {{DEFAULT}} </div>`;
+    //                 controller.DEFAULT = 'Default view';
+    //             },
+    //             obj_footer: 'footer'
+    //         };
 
 
 
@@ -95,19 +99,23 @@ var Framework = function (custom_view_tag) {
 
     this.setDOM = () => {
         console.log('set dom called');
-        var tag_arr = document.getElementsByTagName(custom_view_tag);
+        
+        var tag_arr = document.getElementsByTagName('my-app');
+        console.log(tag_arr);
         for (tag of tag_arr) {
+            
             var regex = new RegExp(/\{([^}]+)\}\}/, 'g');
             that.template.view  = that.template.view.replace(regex,(matched)=>{
-                // console.log('matched ' + matched.replace(/[\}\{]/g, "") );
-                // console.log('controler' + JSON.stringify(that.controller,null,2));
-
+                console.log('matched ' + matched.replace(/[\}\{]/g, "") );
+                console.log('controler' + JSON.stringify(that.controller,null,2));
+                console.log(that.controller.LOGIN);
                  return that.controller[matched.replace(/[\}\{]/g, "")];
                 //  return that.controller.DEFAULT;
             });
-            console.log('view ' + that.template.view );
+            // console.log('view ' + that.template.view );
             tag.innerHTML = that.template.view;
         };
+        console.log('set dom cal end');
     };
 
 
@@ -115,7 +123,7 @@ var Framework = function (custom_view_tag) {
 
     this.render = function () {
         that.getHash().getRouteController();
-        that.getHash().getRouteController().setDOM();
+        that.getHash().getRouteController();
     }
 }
 
