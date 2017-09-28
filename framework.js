@@ -62,7 +62,6 @@ var Framework = function (custom_view_tag) {
     }
 
     this.setDOM = () => {
-        console.log('set dom called');
         var tag_arr = document.getElementsByTagName('my-app');
         for (tag of tag_arr) {
             var regex = new RegExp(/\{([^}]+)\}\}/, 'g');
@@ -70,7 +69,6 @@ var Framework = function (custom_view_tag) {
                 return that.controller[matched.replace(/[\}\{]/g, "")];
             });
         };
-        console.log('set dom cal end');
     };
 
     this.render = function () {
