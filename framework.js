@@ -6,13 +6,18 @@ var Framework = function (custom_view_tag) {
 
     that.template =
         {
-            view: "New text!"
+            view: 'New text!'
         }
+
+    this.rendered = {
+        view: ''
+    }
 
     this.propChangeHandler = {
 
         set: function (obj,prop,value) {
             obj[prop] = value;
+            console.log('new value ' + value);
             that.setDOM();
             return true;
         }
@@ -38,40 +43,10 @@ var Framework = function (custom_view_tag) {
                 },
                 obj_footer: 'footer'
             };
-
-        //    this.controllerLiteral.prototype.register2 = function (name, func) {
-        //             console.log('hi');
-        //         }
-
-    console.log('literal' + JSON.stringify(this.controllerLiteral,null,2));
+  
+    // console.log('literal' + JSON.stringify(this.controllerLiteral,null,2));
     this.controller = new Proxy (this.controllerLiteral,this.propChangeHandler);
-    // console.log('controler' + JSON.stringify(that.controller,null,2));
-
-    // this.controller = {
-        
-    //             obj_name: 'controller',
-    //             defaultRoute: {route: '/', controller: 'defaultController'},
-    //             getControllerName: function () {
-    //                 console.log('controller name: ' + this.obj_name);
-    //             },
-        
-    //             register: function (name, func) {
-    //                 if (!this[name]) {
-    //                     this[name] = func;
-    //                 }
-    //             },
-        
-    //             defaultController: function (controller, template) {
-    //                 template.view = `<div> {{DEFAULT}} </div>`;
-    //                 controller.DEFAULT = 'Default view';
-    //             },
-    //             obj_footer: 'footer'
-    //         };
-
-
-
-
-
+   
     this.router = function (obj) {
         this.routes = obj.routes;
     }
@@ -101,19 +76,22 @@ var Framework = function (custom_view_tag) {
         console.log('set dom called');
         
         var tag_arr = document.getElementsByTagName('my-app');
-        console.log(tag_arr);
+        
         for (tag of tag_arr) {
-            
+            // console.log(tag_arr);
             var regex = new RegExp(/\{([^}]+)\}\}/, 'g');
-            that.template.view  = that.template.view.replace(regex,(matched)=>{
+            that.rendered.view  = that.template.view.replace(regex,(matched)=>{
                 console.log('matched ' + matched.replace(/[\}\{]/g, "") );
                 console.log('controler' + JSON.stringify(that.controller,null,2));
-                console.log(that.controller.LOGIN);
+                console.log(that.controller);
+                console.log(that.controller[matched.replace(/[\}\{]/g, "")]);
                  return that.controller[matched.replace(/[\}\{]/g, "")];
                 //  return that.controller.DEFAULT;
             });
             // console.log('view ' + that.template.view );
-            tag.innerHTML = that.template.view;
+            console.log('consistent control');
+            console.log(that.controller.LOGIN);
+            tag.innerHTML = that.rendered.view;
         };
         console.log('set dom cal end');
     };
@@ -123,7 +101,7 @@ var Framework = function (custom_view_tag) {
 
     this.render = function () {
         that.getHash().getRouteController();
-        that.getHash().getRouteController();
+        // that.getHash().getRouteController();
     }
 }
 

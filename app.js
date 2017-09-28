@@ -21,7 +21,6 @@ app.controller.register('loginController', function(controller, template) {
 
     setTimeout(function() {
         controller.LOGIN = '2222';
-        console.log(controller.LOGIN);
     }, 1000);
 });
 
